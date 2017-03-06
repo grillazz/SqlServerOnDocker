@@ -1,0 +1,45 @@
+version: '2.1'
+
+services:
+
+  db:
+    build:
+      context: ./docker/db/
+      dockerfile: Dockerfile
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "Alaska2017"
+      ACCEPT_EULA: "Y"
+    healthcheck:
+      test: "exit 0"
+    networks:
+      mynetwork:
+        aliases:
+          - db1.internal.prod.example.com
+
+
+  web:
+    build:
+      context: ./docker/web/
+      dockerfile: Dockerfile
+    user: root
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/code/
+    ports:
+      - "8080:8000"
+    environment:
+      DJANGO_SETTINGS_MODULE: SqlServerOnDocker.settings
+    command: python3 manage.py runserver 0.0.0.0:8000
+    restart: unless-stopped
+    networks:
+      mynetwork:
+        aliases:
+          - web1.internal.prod.example.com
+
+networks:
+  mynetwork:
+    driver: bridge
