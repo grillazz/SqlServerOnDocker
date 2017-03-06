@@ -90,3 +90,5 @@ ENV/
 
 # pycharm ignore
 .idea
+.idea/*
+
