@@ -12,12 +12,11 @@ services:
       SA_PASSWORD: "Alaska2017"
       ACCEPT_EULA: "Y"
     healthcheck:
-      test: "exit 0"
+      test: sqlcmd -S db1.internal.prod.example.com -U SA -P 'Alaska2017' -Q 'select 1'
     networks:
       mynetwork:
         aliases:
           - db1.internal.prod.example.com
-
 
   web:
     build:

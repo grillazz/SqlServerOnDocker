@@ -13,3 +13,6 @@ Prof of concept project with Microsoft SQL Server and Django Framework setup on 
 1. run `docker-compose up web`
 2. point your browser to `localhost:8080`
 3. press `CTRL+C` to stop
+
+## Access to sql server
+1. sudo docker-compose run db sqlcmd -S db1.internal.prod.example.com -U SA -P 'Alaska2017' -Q 'select 1'
